@@ -4,6 +4,7 @@ import youtokentome as yttm
 import numpy as np
 import os
 
+os.environ["CUDA_VISIBLE_DEVICES"]="-1" 
 
 class NeuralPoet():
 
@@ -73,8 +74,6 @@ class NeuralPoet():
 
 if __name__ == '__main__':
     import sys
-    import warnings
-    warnings.filterwarnings('always')
     input_string = sys.argv[1]
     poet = NeuralPoet()
     neural_poem = poet.predict_on_string(input_string)
