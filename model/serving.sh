@@ -1,0 +1,1 @@
+docker run -t --rm -p 8501:8501 -v "/home/pi/Code/Lstm_poet/model/full_nlp_model:/models/neural_poet/1/" -e MODEL_NAME=neural_poet emacski/tensorflow-serving &
