@@ -1,18 +1,25 @@
-import tensorflow as tf
-from tensorflow import keras
 import youtokentome as yttm
-import numpy as np
+import requests
 import os
+import numpy as np
 
-class NeuralPoet():
 
-    def __init__(self):
+class NeuralBackendHandler():
+
+    def __init__(self, api_url):
         self.path = os.path.dirname(os.path.abspath(__file__))
-        self.model = keras.models.load_model(os.path.join(self.path, 'lstm_nlp.h5'))
+        self.api_url = api_url
         self.bpe = yttm.BPE(model=os.path.join(self.path, 'yttm.model'))
         self.vocab_size = self.bpe.vocab_size()
         self.sequence_lenght = 20
         self.newline_token = 88
+
+    def pad_sequence(self, sequence, maxlen=20):
+        if len(sequence) >= 20:
+            padded_result = sequence[-20:]
+        else:
+            padded_result = [0]*(20-len(sequence)) + sequence
+        return padded_result
 
     def predict_on_string(self,
                           input_string,
@@ -25,14 +32,18 @@ class NeuralPoet():
 
         s = input_string.lower().replace('ё', 'е') + ' | '
         s = self.bpe.encode(s, output_type=yttm.OutputType.ID)
-        s = tf.keras.preprocessing.sequence.pad_sequences([s], maxlen=self.sequence_lenght)
+        s = [self.pad_sequence(s)]
+        s = np.array(s)
         chaos_vector = np.random.random_sample((max_len,))
 
         is_new_line = True
         result = []
         for i in range(max_len):
 
-            next_token_prob_space = self.model.predict(s)
+            payload = s.tolist()
+            next_token_prob_space = requests.post(self.api_url, json={'instances': payload}).json()['predictions']
+            next_token_prob_space = np.array(next_token_prob_space)
+            
             if np.argmax(next_token_prob_space) == self.newline_token:
                 next_token_sample = [self.newline_token]
                 is_new_line = True
@@ -70,10 +81,6 @@ class NeuralPoet():
         return '\n'.join(result)
 
 
-if __name__ == '__main__':
-    import sys
-    input_string = sys.argv[1]
-    poet = NeuralPoet()
-    neural_poem = poet.predict_on_string(input_string)
-    neural_poem = poet.poetize(neural_poem)
-    print(neural_poem)
+handler = NeuralBackendHandler('http://37.140.198.103:8501/v1/models/neural_poet:predict')
+poem = handler.predict_on_string('Среди воды попить налили')
+print(handler.poetize(poem))
