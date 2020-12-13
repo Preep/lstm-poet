@@ -4,10 +4,10 @@ import telebot
 
 with open('token.txt', 'r') as f:
     TELEGRAM_TOKEN = f.readline()
-print(TELEGRAM_TOKEN)
+
 WELCOME_TEXT = 'welcome text'
 
-bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
+bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 
 def get_poem_from_stirng(message_text):

@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 handler = NeuralBackendHandler(
-    'http://localhost:8501/v1/models/neural_poet:predict'
+    'http://34.140.198.103:8501/v1/models/neural_poet:predict'
 )
 
 
@@ -38,4 +38,4 @@ def write_poem():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=80)
+    app.run(host='0.0.0.0', debug=False, port=80)
