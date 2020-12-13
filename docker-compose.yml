@@ -3,4 +3,11 @@ services:
     tg_bot:
         build:
             context: ./telegram_bot
+        network_mode: "host"
         restart: always
+    server:
+        build:
+            context: ./backend
+        restart: always
+        ports:
+            - 80:80

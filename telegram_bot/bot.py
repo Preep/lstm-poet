@@ -1,4 +1,3 @@
-import os
 import requests
 import telebot
 
@@ -12,10 +11,10 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 def get_poem_from_stirng(message_text):
     response = requests.post(
-        'http://localhost/write_poem',
+        'http://0.0.0.0/write_poem',
         json={'user_string': message_text}
     )
-    poem = response.json['poem']
+    poem = response.json()['poem']
     return poem
 
 
