@@ -3,12 +3,24 @@ services:
     tg_bot:
         build:
             context: ./telegram_bot
-        network_mode: "host"
+        network_mode: 'host'
         restart: always
+        container_name: 'telegram_bot'
     server:
         build:
             context: ./backend
-        network_mode: "host"
+        network_mode: 'host'
         restart: always
         ports:
             - 80:80
+        container_name: 'backend'
+    tensorflow-serving:
+        image: tensorflow/serving:latest
+        ports:
+            - '8501:8501'
+        volumes:
+            - './model/:/models/neural_poet/1/'
+        container_name: 'tf-serving'
+        environment:
+            - MODEL_NAME=neural_poet
+        tty: true

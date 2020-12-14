@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 handler = NeuralBackendHandler(
-    'http://37.140.198.103:8501/v1/models/neural_poet:predict'
+    'http://0.0.0.0:8501/v1/models/neural_poet:predict'
 )
 
 
@@ -15,8 +15,8 @@ def write_poem():
             'error': 'Please provide JSON with "user_string" key'
         }), 422
         )
-
     content = request.get_json()
+
     try:
         user_string = content['user_string']
         print(f'USER INPUT: {user_string}')
