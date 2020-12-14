@@ -14,8 +14,15 @@ def get_poem_from_stirng(message_text):
         'http://0.0.0.0/write_poem',
         json={'user_string': message_text}
     )
-    poem = response.json()['poem']
-    return poem
+    try:
+        answer = response.json()['poem']
+    except KeyError:
+        try:
+            answer = response.json()['error']
+        except KeyError:
+            answer = 'Unknown error, try again later'
+
+    return answer
 
 
 @bot.message_handler(commands=['start', 'help'])

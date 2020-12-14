@@ -8,6 +8,7 @@ services:
     server:
         build:
             context: ./backend
+        network_mode: "host"
         restart: always
         ports:
             - 80:80
