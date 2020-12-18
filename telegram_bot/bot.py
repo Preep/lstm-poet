@@ -10,10 +10,7 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 
 def get_poem_from_stirng(message_text):
-    response = requests.post(
-        'http://0.0.0.0/write_poem',
-        json={'user_string': message_text}
-    )
+    response = requests.post('http://0.0.0.0/write_poem', json={'user_string': message_text})
     try:
         answer = response.json()['poem']
     except KeyError:
@@ -21,7 +18,6 @@ def get_poem_from_stirng(message_text):
             answer = response.json()['error']
         except KeyError:
             answer = 'Unknown error, try again later'
-
     return answer
 
 
