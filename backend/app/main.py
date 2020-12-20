@@ -11,21 +11,21 @@ handler = NeuralBackendHandler(
 @app.route('/write_poem', methods=['POST'])
 def write_poem():
     if not request.is_json:
-        print('NON-JSON RECEIVED:\n', request.data)
+        print(f'NON-JSON RECEIVED:\n{request.data}')
         return jsonify({'error': 'Please provide JSON with "user_string" key'}), 422
     content = request.get_json()
 
     try:
         user_string = content['user_string']
-        print('ON USER INPUT:\n', user_string)
+        print(f'ON USER INPUT:\n{user_string}')
     except KeyError:
-        print('INCORRECT JSON RECEIVED:\n', request.data)
+        print(f'INCORRECT JSON RECEIVED:\n{request.data}')
         return jsonify({'error': 'Please provide a correct JSON with "user_string" key'}), 422
 
     try:
         poem = handler.predict_on_string(user_string, poetize_after_prediction=True)
     except ConnectionError as e:
-        print('NEURAL BACKEND NOT RESPONDED:\n', e)
+        print(f'NEURAL BACKEND NOT RESPONDED:\n{e}')
         return jsonify({'error': 'NeuralNetwork backend is unavailible'}), 500
 
     print('GENERATED:\n', poem)
