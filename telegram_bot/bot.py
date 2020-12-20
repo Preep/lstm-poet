@@ -4,7 +4,8 @@ import telebot
 with open('token.txt', 'r') as f:
     TELEGRAM_TOKEN = f.readline()
 
-WELCOME_TEXT = 'welcome text'
+WELCOME_TEXT = 'Я нейросетевой поэт, обученный на плохих стихах из интернета.\n\
+    Отправь мне любую строку, и я напишу стихотворение на её основе. За качество не ручаюсь.'
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
