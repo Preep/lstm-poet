@@ -2,7 +2,7 @@ import requests
 import telebot
 
 with open('token.txt', 'r') as f:
-    TELEGRAM_TOKEN = f.readline()
+    TELEGRAM_TOKEN = f.readline().rstrip()
 
 WELCOME_TEXT = '''
 Я нейросетевой поэт, обученный на плохих стихах из интернета.

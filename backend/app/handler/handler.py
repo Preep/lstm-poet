@@ -39,8 +39,8 @@ class NeuralBackendHandler():
                           top_k=2,
                           variant_newline=True,
                           newline_top_k=120,
-                          chaos_top_k=75,
-                          chaos_rate=0.2,
+                          chaos_top_k=45,
+                          chaos_rate=0.25,
                           poetize_after_prediction=False):
 
         s = input_string.lower().replace('ё', 'е') + ' | '  # I'm sorry
